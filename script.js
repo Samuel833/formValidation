@@ -111,28 +111,56 @@ function isInvalidInput(str){
 
   Then Use concatenation to add a # to the beginning of the value property of entryDropdown, and assign that result to a targetId variable.
 
-  Now you need to target the .input-container element within the element that has your targetId. Declare a new targetInputContainer variable, and assign it the value of document.querySelector(). Use concatenation to separate targetId and '.input-container' with a space, and pass that string to querySelector()
+  Now I need to target the .input-container element within the element that has the targetId. Declared a new targetInputContainer variable, and assigned it the value of document.querySelector(). Used concatenation to separate targetId and '.input-container' with a space, and pass that string to querySelector()
 
   JavaScript has a feature called template literals, which allow you to interpolate variables directly within a string. Template literals are denoted with backticks ``, as opposed to single or double quotes. Variables can be passed in to a template literal by surrounding the variable with ${} – the value of the variable will be inserted into the string.
-  
   For example:
 
-const name = "Naomi";
-const templateLiteral = `Hello, my name is ${name}~!`;
-console.log(templateLiteral);
-The console will show the string "Hello, my name is Naomi~!".
+    const name = "Naomi";
+    const templateLiteral = `Hello, my name is ${name}~!`;
+    console.log(templateLiteral);
+    The console will show the string "Hello, my name is Naomi~!".
 
-Replace your concatenated string in the querySelector with a template literal – be sure to keep the space between your targetId variable and .input-container
+    Replaced the concatenated string in the querySelector with a template literal – ensuring to keep the space between the targetId variable and .input-container
 
-Thanks to template literals, you actually don't need the targetId variable at all. Remove that variable, and update your template literal to replace targetId with entryDropdown.value – remember to add # before that, in the string.
+    Thanks to template literals, I actually don't need the targetId variable at all. Removed that variable, and updated the template literal to replace targetId with entryDropdown.value – and added # before that, in the string.
+  
 
+  We will want to number the entries a user adds. To get all of the number inputs, we can use the querySelectorAll() method.
+
+  The querySelectorAll() method returns a NodeList of all the elements that match the selector. A NodeList is an array-like object, so you can access the elements using bracket notation.
+
+  I Declared an entryNumber variable and give it the value of targetInputContainer.querySelectorAll(). You do not need to pass an argument to the query selector yet.
+
+Each entry will have a text input for the entry's name, and a number input for the calories. To get a count of the number of entries, you can query by text inputs. Note that you cannot query by number inputs, as you have an extra number input for the user's calorie budget.
+
+Pass the string input[type="text"] to the querySelectorAll() method. Remember that you will need to use single quotes for your string, so that you can use double quotes within.
+
+This will return a NodeList of all the text inputs in the form. You can then access the length property of the NodeList to get the number of entries. Do this on the same line.
+
+Now you need to build your dynamic HTML string to add to the webpage. Declare a new HTMLString variable, and assign it an empty template literal string
+Inside your template literal, create a label element and give it the text "Entry # Name". Using your template literal syntax, replace # with the value of "entryNumber"
+
+Give your label element a for attribute with the value X-#-name, where X is the value of the entryDropdown element and # is the value of entryNumber. Remember that HTML attributes should be wrapped in double quotes.
+
+After your label element, and on a new line in your template string, create an input element. Give it a type attribute set to text, a placeholder attribute set to Name, and an id attribute that matches the for attribute of your label element.
+
+Create another label element (on a new line) at the end of your HTMLString. This label should have the text Entry # Calories, using your template literal syntax to replace # with the value of entryNumber, and the for attribute set to X-#-calories, where X is the value of entryDropdown and # is the value of entryNumber
+
+Finally, on a new line after your second label, create another input element. Give this one a type attribute set to number, a min attribute set to 0 (to ensure negative calories cannot be added), a placeholder attribute set to Calories, and an id attribute that matches the for attribute of your second label element.
 */
+
 
 function addEntry(){
 //  const targetId = "#" + entryDropdown.value;
  const targetInputContainer = document.querySelector(`#${entryDropdown.value} .input-container`);
+
+ const entryNumber = targetInputContainer.querySelectorAll('input[type="text"]').length;
+ const HTMLString = `<label for="${entryDropdown.value}-${entryNumber}-name">Entry ${entryNumber} Name</label>
+ <input type="text" placeholder="Name" id="${entryDropdown.value}-${entryNumber}-name"/>
+ <label for="${entryDropdown.value}-${entryNumber}-calories">Entry ${entryNumber} Calories</label>
+ <input type="number" min="0" placeholder="Calories" id="${entryDropdown.value}-${entryNumber}-calories"/>`;
+
  }
 
- let myName = "Oluwasegun Samuel";
-
- console.log(cleanInputString(myName));
+ 
