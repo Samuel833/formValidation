@@ -149,18 +149,53 @@ Create another label element (on a new line) at the end of your HTMLString. This
 
 Finally, on a new line after your second label, create another input element. Give this one a type attribute set to number, a min attribute set to 0 (to ensure negative calories cannot be added), a placeholder attribute set to Calories, and an id attribute that matches the for attribute of your second label element.
 */
+/*
+  To see your new HTML content for the targetInputContainer, you will need to use the innerHTML property.
 
+  The innerHTML property sets or returns the HTML content inside an element.
+
+  Here is a form element with a label and input element nested inside.
+
+  <form id="form">
+    <label for="first-name">First name</label>
+    <input id="first-name" type="text">
+  </form>
+  If you want to add another label and input element inside the form, then you can use the innerHTML property as shown below:
+
+  const formElement = document.getElementById("form");
+  const formContent = `
+    <label for="last-name">Last name</label>
+    <input id="last-name" type="text">
+  `;
+  formElement.innerHTML += formContent;
+
+  Used the addition assignment operator += to append the HTMLString variable to targetInputContainer.innerHTML
+
+  Try adding a couple of entries to the Breakfast category, and you may notice some bugs! The first thing we need to fix is the entry counts – the first entry should have a count of 1, not 0.
+
+  This bug occurs because you are querying for input[type="text"] elements before adding the new entry to the page. To fix this, update your entryNumber variable to be the value of the length of the query plus 1. Add this on your declaration line, not in your template strings
+
+  Your other bug occurs if you add a Breakfast entry, fill it in, then add a second Breakfast entry. You'll see that the values you added disappeared.
+
+  This is because you are updating innerHTML directly, which does not preserve your input content. Change your innerHTML assignment to use the insertAdjacentHTML() method of targetInputContainer instead. Do not pass any arguments yet.
+*/
 
 function addEntry(){
 //  const targetId = "#" + entryDropdown.value;
  const targetInputContainer = document.querySelector(`#${entryDropdown.value} .input-container`);
 
- const entryNumber = targetInputContainer.querySelectorAll('input[type="text"]').length;
+ const entryNumber = targetInputContainer.querySelectorAll('input[type="text"]').length + 1;
  const HTMLString = `<label for="${entryDropdown.value}-${entryNumber}-name">Entry ${entryNumber} Name</label>
  <input type="text" placeholder="Name" id="${entryDropdown.value}-${entryNumber}-name"/>
  <label for="${entryDropdown.value}-${entryNumber}-calories">Entry ${entryNumber} Calories</label>
  <input type="number" min="0" placeholder="Calories" id="${entryDropdown.value}-${entryNumber}-calories"/>`;
-
+  //targetInputContainer.innerHTML += HTMLString;
+  targetInputContainer.insertAdjacentElement() += HTMLString;
+  
  }
+/*
+  In the Role Playing Game project, you learned how to set a button's behavior by editing its onclick property. You can also edit an element's behavior by adding an event listener.
 
- 
+  Call the .addEventListener() method of the addEntryButton. It takes two arguments. The first is the event to listen to – you should pass the string click. The second is the callback function, or the function that runs when the event is triggered. Pass the addEntry function as the second argument. Note that you should not call addEntry, but pass the variable (or function reference) directly
+*/
+addEntryButton.addEventListener("click", addEntry);
