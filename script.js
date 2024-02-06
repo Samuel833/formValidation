@@ -178,6 +178,11 @@ Finally, on a new line after your second label, create another input element. Gi
   Your other bug occurs if you add a Breakfast entry, fill it in, then add a second Breakfast entry. You'll see that the values you added disappeared.
 
   This is because you are updating innerHTML directly, which does not preserve your input content. Change your innerHTML assignment to use the insertAdjacentHTML() method of targetInputContainer instead. Do not pass any arguments yet.
+
+  The insertAdjacentHtml method takes two arguments. The first argument is a string that specifies the position of the inserted element. The second argument is a string containing the HTML to be inserted.
+
+  For the first argument, pass the string beforeend to insert the new element as the last child of targetInputContainer.
+  For the second argument, pass your HTMLString variable.
 */
 
 function addEntry(){
@@ -190,9 +195,20 @@ function addEntry(){
  <label for="${entryDropdown.value}-${entryNumber}-calories">Entry ${entryNumber} Calories</label>
  <input type="number" min="0" placeholder="Calories" id="${entryDropdown.value}-${entryNumber}-calories"/>`;
   //targetInputContainer.innerHTML += HTMLString;
-  targetInputContainer.insertAdjacentElement() += HTMLString;
+  targetInputContainer.insertAdjacentHTML("beforeend", HTMLString);
   
  }
+
+// Now you can add entries without losing your previous inputs.
+/*
+next step is to write a function that will get the calorie counts from the user's entries.
+Declare a getCaloriesFromInputs function, and give it a parameter called list.
+*/
+
+
+function getCaloriesFromInputs(list){
+  let calories = 0;
+}
 /*
   In the Role Playing Game project, you learned how to set a button's behavior by editing its onclick property. You can also edit an element's behavior by adding an event listener.
 
